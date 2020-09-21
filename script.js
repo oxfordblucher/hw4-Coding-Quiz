@@ -6,23 +6,26 @@ var lastScore = document.querySelector("#lastScore");
 var scoresDiv = document.querySelector(".scores");
 var startQuiz = document.querySelector("#startQuiz");
 
-startQuiz.addEventListener("click", startGame());
+var questionsList = ["Which of the following is a true statement for JavaScript callbacks?", "What is the correct syntax for referring to an external script called 'xxx.js'?", 
+"What is the function of Array object that runs through each element of the array?", ]
 
-var secondsLeft = 200;
+startQuiz.addEventListener("click", function() {
+    timerStart();
+})
 
 function timerStart() {
+    var secondsLeft = 200;
     var timerInterval = setInterval(function() {
         secondsLeft--;
         timerDiv.textContent = secondsLeft
 
         if(secondsLeft === 0) {
             clearInterval(timerInterval);
-
+            endQuiz();
         }
-    })
-}
+    }, 1000);
+};
 
-function startGame(event) {
-    event.preventDefault();
-
+function endQuiz() {
+    
 }
