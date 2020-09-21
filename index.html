@@ -4,17 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Javascript Knowledge Check</title>
-    <link rel="stylesheet" href="bootstrap.css"
+    <link rel="stylesheet" href="bootstrap.css">
 </head>
 <body>
     <header>
-    <nav class="navbar fixed-top navbar-light bg-light">
+    <nav class="navbar navbar-expand-sm navbar-light bg-light">
         <a class="navbar-nav mr-left" href="highscore.html">High Scores</a>
         <div class="navbar-nav mr-right" id="timer"></ul>
     </header>
-    <div class="display">
-        <div class="questions"></div>
-        <div class="answers"></div>
+    <div class="display text-center">
+        <div class="questions">
+            <p>
+            <h1>Coding Quiz Challenge</h1>
+            Try to answer the following questions within the time limit. Each incorrect answer decreases your time remaining by 15 seconds.
+            </p>
+        </div>
+        <div class="answers">
+            <button id="startQuiz">Start</button>
+        </div>
     </div>
+    <script src="script.js"></script>
 </body>
 </html>
