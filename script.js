@@ -1,4 +1,4 @@
-var displayDiv = document.querySelector(".display");
+var answersDiv = document.querySelector(".display");
 var questionsDiv = document.querySelector(".questionDisplay");
 var answersDiv = document.querySelector(".answerDisplay");
 var correctDiv = document.querySelector(".correctDisplay");
@@ -6,6 +6,7 @@ var timerDiv = document.querySelector("#timer");
 var lastScore = document.querySelector("#lastScore");
 var scoresDiv = document.querySelector(".scores");
 var startQuiz = document.querySelector("#startQuiz");
+
 
 var scoresList = [{
     name: "",
@@ -19,7 +20,7 @@ var slides = [
         answer: "big()"
     },
     {
-        question: "Select a function of Array object which returns a new array comprised of the current array /or its value(s)?",
+        question: "Select a function of Array Itemect which returns a new array comprised of the current array /or its value(s)?",
         choices: ["push()", "pop()", "concat()", "some()"],
         answer: "concat()"
     },
@@ -34,12 +35,12 @@ var slides = [
         answer: "All except None"
     },
     {
-        question: "Which of the following function of String object returns the capitalized string while respecting the current locale?",
+        question: "Which of the following function of String Itemect returns the capitalized string while respecting the current locale?",
         choices: ["substring()", "toString()", "toUpperCase()", "toLocaleUpperCase()"],
         answer: "toLocaleUpperCase()"
     },
     {
-        question: "What is the function of Array object that runs through each element of the array?",
+        question: "What is the function of Array Itemect that runs through each element of the array?",
         choices: ["concat()", "every()", "filter()", "forEach()"],
         answer: "forEach()"
     },
@@ -49,20 +50,20 @@ var slides = [
         answer: "true"
     },
     {
-        question: "Which of the following method of Boolean object returns a string depending upon the value of the object?",
+        question: "Which of the following method of Boolean Itemect returns a string depending upon the value of the Itemect?",
         choices: ["toString()", "valueOf()", "toSource()", "None"],
         answer: "toString()"
     },
 ];
 
-var secondsLeft = 120;
+var secondsLeft = 100;
 
 function timerStart() {
     var timerInterval = setInterval(function () {
         secondsLeft--;
         timerDiv.textContent = "Timer: " + secondsLeft;
 
-        if (secondsLeft === 0) {
+        if (secondsLeft <= 0) {
             clearInterval(timerInterval);
             endQuiz();
         }
@@ -79,7 +80,7 @@ startQuiz.addEventListener("click", function () {
 
 function displayScore() {
     //get data from ls
-    //parsed to array of objs
+    //parsed to array of Items
     //run the sortfx
     //verify data is sorted
     //dynamically append to html
@@ -102,12 +103,10 @@ function createSlide(x) {
         btn.textContent = slides[x].choices[i];
         answersDiv.appendChild(btn);
     }
-
-    function checkScore(event) {
-        event.preventDefault();
-        event.stopPropagation();
+        function checkScore(event) {
         correctDiv.innerHTML = "";
         var c = document.createElement("p");
+
         var element = event.target;
         if(element.matches("button")) {
             if (element.textContent == slides[x].answer) {
@@ -117,27 +116,57 @@ function createSlide(x) {
                 secondsLeft -= 15;
             }
         }
+        
         correctDiv.appendChild(c);
         slides.splice(x, 1);
+        if(slides.length > 0) {
         var y = Math.floor(Math.random() * slides.length);
         createSlide(y);
-    }
-    if (slides.length = 0) {
+        }else{
         endQuiz();
-    }
-}   
+        }
+}}
 
+function endQuiz(event) {
+    var final = secondsLeft;
+    questionsDiv.innerHTML = "Your final score is: " + secondsLeft;
+    answersDiv.innerHTML = "";
+    correctDiv.innerHTML = "";
 
-function endQuiz() {
-    displayDiv.innerHTML = "";
-    var ask = document.createElement("form");
-    ask.setAttribute("input", "")
-}
+    var nuLabel = document.createElement("label");
+    var userName = document.createElement("input");
+    var sendIn = document.createElement("button");
 
+    nuLabel.setAttribute("id", "nuLabel");
+    nuLabel.textContent = "Enter your name: "
+    answersDiv.appendChild(nuLabel);
 
-function endGame() {
-    //ask for userinput
-    //store userinput into an obj contain name and score.
-    //push the obj into the scorearray
+    userName.setAttribute("type", "name");
+    userName.setAttribute("id", "name");
+    userName.required = true;
+    userName.textContent = null;
+    answersDiv.appendChild(userName);
 
+    sendIn.setAttribute("type", "submit");
+    sendIn.setAttribute("id", "Submit");
+    sendIn.textContent = "Submit";
+    answersDiv.appendChild(sendIn);
+
+    sendIn.addEventListener("click", function() {
+        var name = userName.value;
+            var newScore = {
+                name: name,
+                score: final
+            };
+            var allScores = localStorage.getItem("allScores");
+            if (allScores === null) {
+                var allScores = [];
+            }else{
+                var allScores = JSON.parse(allScores);
+            }
+            allScores.push(newScore);
+            var newList = JSON.stringify(allScores);
+            localStorage.setItem("allScores", newList);
+            window.location.replace("./highscore.html")
+        })
 }
